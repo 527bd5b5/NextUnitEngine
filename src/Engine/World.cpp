@@ -33,8 +33,13 @@ namespace world
 
     void reset()
     {
-        // templateGridMonos::init(8, 8, 8, true, 0.125);
-        templateRandomMonos::init(512, 2.0);
+        monoEffectManager::clear();
+
+        int indexShift = 0;
+
+        indexShift = templateRandomMonos::init(indexShift, 64, 2.0);
+        indexShift = templateRandomMonos::init(indexShift, 64, 0.5);
+        indexShift = templateGridMonos::init(indexShift, 6, 6, 6, true, 0.0);
     }
 
     void update()

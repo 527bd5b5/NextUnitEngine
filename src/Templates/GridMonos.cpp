@@ -6,8 +6,9 @@
 
 namespace templateGridMonos
 {
-    void init(
-        int sizeX, int sizeY, int sizeZ, bool fixEnd = false, double noise = 0.0
+    int init(
+        int indexShift, int sizeX, int sizeY, int sizeZ, bool fixEnd = false,
+        double noise = 0.0
     )
     {
         namespace mem = monoEffectManager;
@@ -17,8 +18,9 @@ namespace templateGridMonos
         int pointLengthX = sizeX + 1;
         int pointLengthY = sizeY + 1;
         int pointLengthZ = sizeZ + 1;
+        int addMonoNum = pointLengthX * pointLengthY * pointLengthZ;
 
-        mem::init(pointLengthX * pointLengthY * pointLengthZ);
+        mem::set(addMonoNum);
 
         for (int z = 0; z < pointLengthZ; z++)
         {
@@ -37,8 +39,9 @@ namespace templateGridMonos
                     double posX = x - (double)sizeX / 2.0;
                     bool isEdgeX = x == 0 || x == sizeX;
 
-                    Mono& mono =
-                        mem::getEditableMono(indexShiftZ + indexShiftY + x);
+                    Mono& mono = mem::getEditableMono(
+                        indexShift + indexShiftZ + indexShiftY + x
+                    );
 
                     mono.fixed = fixEnd && (isEdgeX || isEdgeY || isEdgeZ);
 
@@ -56,5 +59,7 @@ namespace templateGridMonos
                 }
             }
         }
+
+        return indexShift + addMonoNum;
     }
 }

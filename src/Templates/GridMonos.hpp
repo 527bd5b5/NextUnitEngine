@@ -2,5 +2,8 @@
 
 namespace templateGridMonos
 {
-    void init(int sizeX, int sizeY, int sizeZ, bool fixEnd, double noise);
+    int init(
+        int indexShift, int sizeX, int sizeY, int sizeZ, bool fixEnd,
+        double noise
+    );
 }

@@ -4,11 +4,13 @@
 Mono::Mono()
 {
     index = -1;
+    fixed = false;
 }
 
 Mono::Mono(int index)
 {
     this->index = index;
+    fixed = false;
 }
 
 Mono::Mono(const Mono& mono)

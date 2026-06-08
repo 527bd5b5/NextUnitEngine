@@ -8,7 +8,8 @@ namespace monoEffectManager
     extern std::vector<Mono> monos;
     extern std::vector<MonoCluster> clusters;
 
-    void init(int num);
+    void clear();
+    void set(int num);
     Mono& getEditableMono(int index);
     void calcNextState(double deltaTimes, double clusterThreshold);
 }

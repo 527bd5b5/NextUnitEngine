@@ -2,5 +2,5 @@
 
 namespace templateRandomMonos
 {
-    void init(int num, double spread);
+    int init(int indexShift, int num, double spread);
 }

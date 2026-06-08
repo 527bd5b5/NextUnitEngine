@@ -11,7 +11,9 @@ namespace monoDeltaStore
         double power;
     };
 
+    void clear();
     void init(int num);
+    void insert(int addNum);
     void set(int i, int j, MonoDelta& monoDelta);
     MonoDelta& get(int i, int j);
 }

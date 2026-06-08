@@ -6,16 +6,18 @@
 
 namespace templateRandomMonos
 {
-    void init(int num, double spread)
+    int init(int indexShift, int num, double spread)
     {
         namespace mem = monoEffectManager;
 
-        mem::init(num);
-
         auto getDoubleRand = util::getDoubleRandFunc(-spread, spread);
 
-        for (int i = 0; i < mem::monos.size(); i++)
-            mem::getEditableMono(i).position =
+        mem::set(num);
+
+        for (int i = 0; i < num; i++)
+            mem::getEditableMono(indexShift + i).position =
                 Vector3(getDoubleRand(), getDoubleRand(), getDoubleRand());
+
+        return indexShift + num;
     }
 }

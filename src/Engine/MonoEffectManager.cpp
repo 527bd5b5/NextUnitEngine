@@ -13,6 +13,15 @@ namespace monoEffectManager
     std::vector<Mono> nextStepMonos;
     std::vector<MonoCluster> clusters;
 
+    void clear()
+    {
+        monoDeltaStore::clear();
+
+        monos.clear();
+        nextStepMonos.clear();
+        clusters.clear();
+    }
+
     void init(int num)
     {
         monoDeltaStore::init(num);
@@ -23,6 +32,36 @@ namespace monoEffectManager
 
         for (int i = 0; i < num; i++)
             nextStepMonos[i] = monos[i] = Mono(i);
+    }
+
+    void insert(int addNum)
+    {
+        monoDeltaStore::insert(addNum);
+
+        int currentMonoNum = monos.size();
+        int newMonoNum = currentMonoNum + addNum;
+
+        for (int i = currentMonoNum; i < newMonoNum; i++)
+        {
+            Mono mono = Mono(i);
+
+            monos.push_back(mono);
+            nextStepMonos.push_back(mono);
+        }
+
+        clusters.clear();
+    }
+
+    void set(int num)
+    {
+        if (monos.size() == 0)
+        {
+            init(num);
+        }
+        else
+        {
+            insert(num);
+        }
     }
 
     Mono& getEditableMono(int index)

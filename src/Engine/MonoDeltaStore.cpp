@@ -36,6 +36,13 @@ namespace monoDeltaStore
         return stepIndex;
     }
 
+    void clear()
+    {
+        monoNum = 0;
+        monoDeltas.clear();
+        stepIndexDict.clear();
+    }
+
     void init(int num)
     {
         monoNum = num;
@@ -43,6 +50,21 @@ namespace monoDeltaStore
         stepIndexDict = std::vector<int>(num - 1);
 
         for (int i = 0; i < num - 1; i++)
+            stepIndexDict[i] = calcStepIndex(i);
+    }
+
+    void insert(int addNum)
+    {
+        monoNum += addNum;
+
+        int addMonoDeltaNum = monoNum * (monoNum - 1) / 2 - monoDeltas.size();
+
+        for (int i = 0; i < addMonoDeltaNum; i++)
+            monoDeltas.push_back(MonoDelta());
+
+        stepIndexDict = std::vector<int>(monoNum - 1);
+
+        for (int i = 0; i < monoNum - 1; i++)
             stepIndexDict[i] = calcStepIndex(i);
     }
 

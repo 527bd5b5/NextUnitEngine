@@ -1,65 +1,68 @@
 #include "Templates/GridMonos.hpp"
 #include "Classes/Mono.hpp"
+#include "Classes/MonoTemplate.hpp"
 #include "Classes/Vector3.hpp"
-#include "Engine/MonoEffectManager.hpp"
+#include "Classes/Vector3i.hpp"
 #include "Util.hpp"
 
-namespace templateGridMonos
+namespace monoTemplate
 {
-    int init(
-        int indexShift, int sizeX, int sizeY, int sizeZ, bool fixEnd = false,
-        double noise = 0.0
-    )
+    GridMonos::GridMonos() : MonoTemplate() {}
+
+    GridMonos::GridMonos(const Vector3& origin) : MonoTemplate(origin) {}
+
+    void GridMonos::init()
     {
-        namespace mem = monoEffectManager;
+        Vector3i pointLength = Vector3i(size.x + 1, size.y + 1, size.z + 1);
+
+        initPrepare(pointLength.x * pointLength.y * pointLength.z);
 
         auto getDoubleRand = util::getDoubleRandFunc(-noise, noise);
 
-        int pointLengthX = sizeX + 1;
-        int pointLengthY = sizeY + 1;
-        int pointLengthZ = sizeZ + 1;
-        int addMonoNum = pointLengthX * pointLengthY * pointLengthZ;
+        Vector3 position;
+        Vector3i index;
 
-        mem::set(addMonoNum);
-
-        for (int z = 0; z < pointLengthZ; z++)
+        for (int z = 0; z < pointLength.z; z++)
         {
-            double posZ = z - (double)sizeZ / 2.0;
-            bool isEdgeZ = z == 0 || z == sizeZ;
-            int indexShiftZ = z * pointLengthY * pointLengthX;
+            position.z = z - (double)size.z / 2.0;
+            index.z = z * pointLength.y * pointLength.x;
 
-            for (int y = 0; y < pointLengthY; y++)
+            bool isEdgeZ = z == 0 || z == size.z;
+
+            for (int y = 0; y < pointLength.y; y++)
             {
-                double posY = y - (double)sizeY / 2.0;
-                bool isEdgeY = y == 0 || y == sizeY;
-                int indexShiftY = y * pointLengthX;
+                position.y = y - (double)size.y / 2.0;
+                index.y = y * pointLength.x;
 
-                for (int x = 0; x < pointLengthX; x++)
+                bool isEdgeY = y == 0 || y == size.y;
+
+                for (int x = 0; x < pointLength.x; x++)
                 {
-                    double posX = x - (double)sizeX / 2.0;
-                    bool isEdgeX = x == 0 || x == sizeX;
+                    position.x = x - (double)size.x / 2.0;
+                    index.x = x;
 
-                    Mono& mono = mem::getEditableMono(
-                        indexShift + indexShiftZ + indexShiftY + x
-                    );
+                    bool isEdgeX = x == 0 || x == size.x;
+
+                    Mono& mono = getMono(index.z + index.y + index.x);
 
                     mono.fixed = fixEnd && (isEdgeX || isEdgeY || isEdgeZ);
 
                     if (noise == 0.0)
                     {
-                        mono.position = Vector3(posX, posY, posZ);
+                        mono.position = origin + position;
                     }
                     else
                     {
-                        mono.position = Vector3(
-                            posX + getDoubleRand(), posY + getDoubleRand(),
-                            posZ + getDoubleRand()
-                        );
+                        mono.position = origin + position +
+                                        Vector3(
+                                            getDoubleRand(), getDoubleRand(),
+                                            getDoubleRand()
+                                        );
                     }
                 }
             }
         }
 
-        return indexShift + addMonoNum;
+        initComplete();
     }
 }

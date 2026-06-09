@@ -2,6 +2,7 @@
 
 #include "Classes/Mono.hpp"
 #include "Classes/MonoCluster.hpp"
+#include "Classes/MonoTemplate.hpp"
 #include "Classes/Vector3.hpp"
 #include "Engine/MonoDeltaStore.hpp"
 #include "Engine/MonoEffectManager.hpp"
@@ -16,6 +17,7 @@ namespace monoEffectManager
     void clear()
     {
         monoDeltaStore::clear();
+        MonoTemplate::initIndexShift();
 
         monos.clear();
         nextStepMonos.clear();

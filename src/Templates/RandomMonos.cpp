@@ -1,23 +1,26 @@
 #include "Templates/RandomMonos.hpp"
 #include "Classes/Mono.hpp"
+#include "Classes/MonoTemplate.hpp"
 #include "Classes/Vector3.hpp"
-#include "Engine/MonoEffectManager.hpp"
 #include "Util.hpp"
 
-namespace templateRandomMonos
+namespace monoTemplate
 {
-    int init(int indexShift, int num, double spread)
+    RandomMonos::RandomMonos() : MonoTemplate() {}
+
+    RandomMonos::RandomMonos(const Vector3& origin) : MonoTemplate(origin) {}
+
+    void RandomMonos::init(int monoNum)
     {
-        namespace mem = monoEffectManager;
+        initPrepare(monoNum);
 
-        auto getDoubleRand = util::getDoubleRandFunc(-spread, spread);
+        auto getDoubleRandX = util::getDoubleRandFunc(-size.x, size.x);
+        auto getDoubleRandY = util::getDoubleRandFunc(-size.y, size.y);
+        auto getDoubleRandZ = util::getDoubleRandFunc(-size.z, size.z);
 
-        mem::set(num);
+        for (int i = 0; i < monoNum; i++)
+            setMono(i, getDoubleRandX(), getDoubleRandY(), getDoubleRandZ());
 
-        for (int i = 0; i < num; i++)
-            mem::getEditableMono(indexShift + i).position =
-                Vector3(getDoubleRand(), getDoubleRand(), getDoubleRand());
-
-        return indexShift + num;
+        initComplete();
     }
 }

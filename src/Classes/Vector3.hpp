@@ -1,5 +1,9 @@
 #pragma once
 
+#include "Classes/Vector3i.hpp"
+
+class Vector3i;
+
 class Vector3
 {
   public:
@@ -10,6 +14,7 @@ class Vector3
     Vector3();
     Vector3(double x, double y, double z);
     Vector3(const Vector3& v);
+    Vector3(const Vector3i& v);
     Vector3& operator=(const Vector3& v);
     Vector3 operator+(const Vector3& v) const;
     Vector3 operator-(const Vector3& v) const;

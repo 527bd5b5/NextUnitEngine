@@ -18,6 +18,11 @@ Vector2::Vector2(const Vector2& v)
     set(v);
 }
 
+Vector2::Vector2(const Vector2i& v)
+{
+    set((double)v.x, (double)v.y);
+}
+
 Vector2& Vector2::operator=(const Vector2& v)
 {
     if (this == &v)
@@ -46,7 +51,7 @@ Vector2 Vector2::operator*(double d) const
 
 Vector2 Vector2::operator/(double d) const
 {
-    if (d == 0)
+    if (d == 0.0)
         throw std::runtime_error("Error: Division by zero.");
 
     return Vector2(x / d, y / d);
@@ -78,6 +83,9 @@ Vector2& Vector2::operator*=(double d)
 
 Vector2& Vector2::operator/=(double d)
 {
+    if (d == 0.0)
+        throw std::runtime_error("Error: Division by zero.");
+
     x /= d;
     y /= d;
 
@@ -92,8 +100,8 @@ void Vector2::set(double x, double y)
 
 void Vector2::set(const Vector2& v)
 {
-    this->x = v.x;
-    this->y = v.y;
+    x = v.x;
+    y = v.y;
 }
 
 double Vector2::direction() const

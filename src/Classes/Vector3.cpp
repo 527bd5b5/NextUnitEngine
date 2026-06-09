@@ -18,6 +18,11 @@ Vector3::Vector3(const Vector3& v)
     set(v);
 }
 
+Vector3::Vector3(const Vector3i& v)
+{
+    set((double)v.x, (double)v.y, (double)v.z);
+}
+
 Vector3& Vector3::operator=(const Vector3& v)
 {
     if (this == &v)
@@ -47,7 +52,7 @@ Vector3 Vector3::operator*(double d) const
 
 Vector3 Vector3::operator/(double d) const
 {
-    if (d == 0)
+    if (d == 0.0)
         throw std::runtime_error("Error: Division by zero.");
 
     return Vector3(x / d, y / d, z / d);
@@ -82,6 +87,9 @@ Vector3& Vector3::operator*=(double d)
 
 Vector3& Vector3::operator/=(double d)
 {
+    if (d == 0.0)
+        throw std::runtime_error("Error: Division by zero.");
+
     x /= d;
     y /= d;
     z /= d;
@@ -98,9 +106,9 @@ void Vector3::set(double x, double y, double z)
 
 void Vector3::set(const Vector3& v)
 {
-    this->x = v.x;
-    this->y = v.y;
-    this->z = v.z;
+    x = v.x;
+    y = v.y;
+    z = v.z;
 }
 
 Vector3 Vector3::direction() const

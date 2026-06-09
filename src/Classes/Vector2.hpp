@@ -1,5 +1,9 @@
 #pragma once
 
+#include "Classes/Vector2i.hpp"
+
+class Vector2i;
+
 class Vector2
 {
   public:
@@ -9,6 +13,7 @@ class Vector2
     Vector2();
     Vector2(double x, double y);
     Vector2(const Vector2& v);
+    Vector2(const Vector2i& v);
     Vector2& operator=(const Vector2& v);
     Vector2 operator+(const Vector2& v) const;
     Vector2 operator-(const Vector2& v) const;

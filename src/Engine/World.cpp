@@ -6,6 +6,7 @@
 #include "Classes/Mono.hpp"
 #include "Classes/MonoCluster.hpp"
 #include "Classes/Vector3.hpp"
+#include "Classes/Vector3i.hpp"
 #include "Engine/MonoEffectManager.hpp"
 #include "Engine/World.hpp"
 #include "GlutTools/GlutDraw.hpp"
@@ -33,13 +34,23 @@ namespace world
 
     void reset()
     {
+        namespace mt = monoTemplate;
+
         monoEffectManager::clear();
 
-        int indexShift = 0;
+        mt::RandomMonos mt1 = mt::RandomMonos(Vector3(0.0, 1.0, 0.0));
+        mt1.size = Vector3(2.0, 0.5, 2.0);
+        mt1.init(64);
 
-        indexShift = templateRandomMonos::init(indexShift, 64, 2.0);
-        indexShift = templateRandomMonos::init(indexShift, 64, 0.5);
-        indexShift = templateGridMonos::init(indexShift, 6, 6, 6, true, 0.0);
+        mt::RandomMonos mt2 = mt::RandomMonos(Vector3(0.0, -1.0, 0.0));
+        mt2.size = Vector3(2.0, 0.5, 2.0);
+        mt2.init(64);
+
+        mt::GridMonos mt3 = mt::GridMonos();
+        mt3.size = Vector3i(6, 6, 6);
+        mt3.fixEnd = true;
+        mt3.noise = 0.0;
+        mt3.init();
     }
 
     void update()

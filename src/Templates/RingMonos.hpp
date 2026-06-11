@@ -1,18 +1,16 @@
 #pragma once
 
 #include "Classes/MonoTemplate.hpp"
-#include "Classes/Vector3i.hpp"
 
 namespace monoTemplate
 {
-    class GridMonos : public MonoTemplate
+    class RingMonos : public MonoTemplate
     {
       public:
-        Vector3i size;
-        double scale;
-        bool fixEnd;
+        double radius;
+        double velocity;
 
-        GridMonos();
+        RingMonos();
         void init() override;
         void setFromScript() override;
     };

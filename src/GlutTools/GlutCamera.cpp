@@ -5,8 +5,8 @@
 #include "Classes/Vector3.hpp"
 #include "GlutTools/GlutCamera.hpp"
 #include "GlutTools/GlutEvent.hpp"
+#include "Utils/Math.hpp"
 
-#define PI_15 3.141592653589793
 #define CAMERA_POS_MOVE_ACCELERATION 0.05
 #define CAMERA_POS_MOVE_SPEED 0.03
 #define CAMERA_ROT_MOVE_ACCELERATION 0.1
@@ -54,7 +54,8 @@ namespace glutCamera
         move.y = keySignals[4].getSignal() - keySignals[5].getSignal();
 
         double direction =
-            move.direction() - (cameraRotation.y / 360.0 - 90.0) * 2.0 * PI_15;
+            move.direction() -
+            (cameraRotation.y / 360.0 - 90.0) * 2.0 * util::PI_15;
         double magnitude = move.magnitude() * CAMERA_POS_MOVE_SPEED;
 
         cameraPosition.x += std::cos(direction) * magnitude;

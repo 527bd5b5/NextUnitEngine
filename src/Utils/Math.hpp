@@ -1,12 +1,9 @@
 #pragma once
 
-#include <functional>
-#include <iostream>
-
 namespace util
 {
-    void printDebugLine(const std::string& text);
-    std::function<double(void)> getDoubleRandFunc(double min, double max);
+    extern double PI_15;
+
     double sigmoidFunc(double x);
     double sigmoidFunc(double x, double a);
     double normalDistributionFunc(double x);

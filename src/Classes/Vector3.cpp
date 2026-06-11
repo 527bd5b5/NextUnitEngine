@@ -53,7 +53,7 @@ Vector3 Vector3::operator*(double d) const
 Vector3 Vector3::operator/(double d) const
 {
     if (d == 0.0)
-        throw std::runtime_error("Error: Division by zero.");
+        throw std::runtime_error("Division by zero.");
 
     return Vector3(x / d, y / d, z / d);
 }
@@ -88,7 +88,7 @@ Vector3& Vector3::operator*=(double d)
 Vector3& Vector3::operator/=(double d)
 {
     if (d == 0.0)
-        throw std::runtime_error("Error: Division by zero.");
+        throw std::runtime_error("Division by zero.");
 
     x /= d;
     y /= d;

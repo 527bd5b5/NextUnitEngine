@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 #include <GL/glut.h>
 

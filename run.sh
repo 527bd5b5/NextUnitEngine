@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./obj/NextUnitEngine
+./obj/NextUnitEngine test/test.nue

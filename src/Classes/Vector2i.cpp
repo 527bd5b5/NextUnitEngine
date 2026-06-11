@@ -52,7 +52,7 @@ Vector2i Vector2i::operator*(int i) const
 Vector2i Vector2i::operator/(int i) const
 {
     if (i == 0)
-        throw std::runtime_error("Error: Division by zero.");
+        throw std::runtime_error("Division by zero.");
 
     return Vector2i(x / i, y / i);
 }
@@ -84,7 +84,7 @@ Vector2i& Vector2i::operator*=(int i)
 Vector2i& Vector2i::operator/=(int i)
 {
     if (i == 0)
-        throw std::runtime_error("Error: Division by zero.");
+        throw std::runtime_error("Division by zero.");
 
     x /= i;
     y /= i;

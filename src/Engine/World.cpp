@@ -5,15 +5,18 @@
 #include "Classes/KeySignal.hpp"
 #include "Classes/Mono.hpp"
 #include "Classes/MonoCluster.hpp"
+#include "Classes/Vector2.hpp"
 #include "Classes/Vector3.hpp"
 #include "Classes/Vector3i.hpp"
 #include "Engine/MonoEffectManager.hpp"
 #include "Engine/World.hpp"
+#include "GlutTools/GlutCamera.hpp"
 #include "GlutTools/GlutDraw.hpp"
 #include "GlutTools/GlutEvent.hpp"
 #include "GlutTools/GlutUtil.hpp"
 #include "Templates/GridMonos.hpp"
 #include "Templates/RandomMonos.hpp"
+#include "Templates/RingMonos.hpp"
 #include "Util.hpp"
 
 #define DELTA_TIMES 1.0 / 65536
@@ -34,23 +37,26 @@ namespace world
 
     void reset()
     {
+        glutCamera::cameraPosition = Vector3(0.0, 10.0, 0.0);
+        glutCamera::cameraRotation = Vector2(-90.0, 0.0);
+
         namespace mt = monoTemplate;
 
         monoEffectManager::clear();
 
-        mt::RandomMonos mt1 = mt::RandomMonos(Vector3(0.0, 1.0, 0.0));
-        mt1.size = Vector3(2.0, 0.5, 2.0);
-        mt1.init(64);
+        mt::RingMonos ringMonos;
 
-        mt::RandomMonos mt2 = mt::RandomMonos(Vector3(0.0, -1.0, 0.0));
-        mt2.size = Vector3(2.0, 0.5, 2.0);
-        mt2.init(64);
+        ringMonos.radius = 1.0 / 256;
+        ringMonos.velocity = 1.0 / 256;
+        ringMonos.positionNoise = 1.0 / 256;
 
-        mt::GridMonos mt3 = mt::GridMonos();
-        mt3.size = Vector3i(6, 6, 6);
-        mt3.fixEnd = true;
-        mt3.noise = 0.0;
-        mt3.init();
+        for (int i = 0; i < 16; i++)
+        {
+            ringMonos.origin.x = (double)(i % 4) * 2.0 - 3.0;
+            ringMonos.origin.z = (double)(i / 4) * 2.0 - 3.0;
+
+            ringMonos.init(i + 3);
+        }
     }
 
     void update()
@@ -114,7 +120,7 @@ namespace world
 
             for (Mono& monoA : cluster.monos)
             {
-                GLdouble monoPositionA[3] = {
+                GLdouble monoPositionA[] = {
                     monoA.position.x, monoA.position.y, monoA.position.z
                 };
 
@@ -123,7 +129,7 @@ namespace world
                     if (monoA.index >= monoB.index)
                         continue;
 
-                    GLdouble monoPositionB[3] = {
+                    GLdouble monoPositionB[] = {
                         monoB.position.x, monoB.position.y, monoB.position.z
                     };
 

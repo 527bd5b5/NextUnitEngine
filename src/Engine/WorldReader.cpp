@@ -16,7 +16,7 @@ namespace worldReader
     void throwInvalidFormat(int lineNum)
     {
         util::printErrorLine(
-            "Invalid formatting on line " + std::to_string(lineNum) + ".", 2
+            "Invalid formatting on line " + std::to_string(lineNum) + ".", 3
         );
     }
 
@@ -25,7 +25,7 @@ namespace worldReader
         util::printErrorLine(
             "Invalid formatting for template \"" + alias +
                 "\" starts on line " + std::to_string(lineNum) + ".",
-            2
+            3
         );
     }
 
@@ -37,7 +37,7 @@ namespace worldReader
             "Invalid formatting for template \"" + alias +
                 "\" starts on line " + std::to_string(lineNum) + ": " +
                 e.what(),
-            2
+            3
         );
     }
 
@@ -85,6 +85,10 @@ namespace worldReader
     void readNueFile(const std::string& filePath)
     {
         std::ifstream file(filePath);
+
+        if (!file)
+            util::printErrorLine("A non-existent file was specified.", 2);
+
         std::string line, alias;
         std::map<std::string, std::vector<std::string>> properties;
 

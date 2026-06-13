@@ -11,7 +11,7 @@ namespace monoTemplate
         Vector3 size;
 
         RandomMonos();
-        RandomMonos(const Vector3& origin);
-        void init(int monoNum) override;
+        void init() override;
+        void setFromScript() override;
     };
 }

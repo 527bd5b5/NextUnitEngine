@@ -2,25 +2,41 @@
 #include "Classes/Mono.hpp"
 #include "Classes/MonoTemplate.hpp"
 #include "Classes/Vector3.hpp"
-#include "Util.hpp"
+#include "Utils/Random.hpp"
 
 namespace monoTemplate
 {
     RandomMonos::RandomMonos() : MonoTemplate() {}
 
-    RandomMonos::RandomMonos(const Vector3& origin) : MonoTemplate(origin) {}
-
-    void RandomMonos::init(int monoNum)
+    void RandomMonos::init()
     {
         initPrepare(monoNum);
 
-        auto getDoubleRandX = util::getDoubleRandFunc(-size.x, size.x);
-        auto getDoubleRandY = util::getDoubleRandFunc(-size.y, size.y);
-        auto getDoubleRandZ = util::getDoubleRandFunc(-size.z, size.z);
+        auto getDoubleRandSizeX =
+            util::getDoubleRandFunc(-size.x / 2.0, size.x / 2.0);
+        auto getDoubleRandSizeY =
+            util::getDoubleRandFunc(-size.y / 2.0, size.y / 2.0);
+        auto getDoubleRandSizeZ =
+            util::getDoubleRandFunc(-size.z / 2.0, size.z / 2.0);
 
         for (int i = 0; i < monoNum; i++)
-            setMono(i, getDoubleRandX(), getDoubleRandY(), getDoubleRandZ());
+        {
+            setMonoPosition(
+                i, getDoubleRandSizeX(), getDoubleRandSizeY(),
+                getDoubleRandSizeZ()
+            );
+
+            setMonoPositionDelta(i);
+        }
 
         initComplete();
+    }
+
+    void RandomMonos::setFromScript()
+    {
+        MonoTemplate::setFromScript();
+
+        monoNum = getScriptInt("mono-num", 256);
+        size = getScriptVector3("size", Vector3(4.0, 4.0, 4.0));
     }
 }

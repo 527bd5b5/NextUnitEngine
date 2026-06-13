@@ -1,0 +1,227 @@
+# z = -5.0
+
+@ring
+    origin: -5.0, 0.0, -5.0
+    mono-num: 3
+    radius: 0.125
+    velocity: 0.00390625
+
+@ring
+    origin: -3.0, 0.0, -5.0
+    mono-num: 4
+    radius: 0.125
+    velocity: 0.00390625
+
+@ring
+    origin: -1.0, 0.0, -5.0
+    mono-num: 5
+    radius: 0.125
+    velocity: 0.00390625
+
+@ring
+    origin: 1.0, 0.0, -5.0
+    mono-num: 6
+    radius: 0.125
+    velocity: 0.00390625
+
+@ring
+    origin: 3.0, 0.0, -5.0
+    mono-num: 7
+    radius: 0.125
+    velocity: 0.00390625
+
+@ring
+    origin: 5.0, 0.0, -5.0
+    mono-num: 8
+    radius: 0.125
+    velocity: 0.00390625
+
+# z = -3.0
+
+@ring
+    origin: -5.0, 0.0, -3.0
+    mono-num: 9
+    radius: 0.125
+    velocity: 0.00390625
+
+@ring
+    origin: -3.0, 0.0, -3.0
+    mono-num: 10
+    radius: 0.125
+    velocity: 0.00390625
+
+@ring
+    origin: -1.0, 0.0, -3.0
+    mono-num: 11
+    radius: 0.125
+    velocity: 0.00390625
+
+@ring
+    origin: 1.0, 0.0, -3.0
+    mono-num: 12
+    radius: 0.125
+    velocity: 0.00390625
+
+@ring
+    origin: 3.0, 0.0, -3.0
+    mono-num: 13
+    radius: 0.125
+    velocity: 0.00390625
+
+@ring
+    origin: 5.0, 0.0, -3.0
+    mono-num: 14
+    radius: 0.125
+    velocity: 0.00390625
+
+# z = -1.0
+
+@ring
+    origin: -5.0, 0.0, -1.0
+    mono-num: 15
+    radius: 0.125
+    velocity: 0.00390625
+
+@ring
+    origin: -3.0, 0.0, -1.0
+    mono-num: 16
+    radius: 0.125
+    velocity: 0.00390625
+
+@ring
+    origin: -1.0, 0.0, -1.0
+    mono-num: 17
+    radius: 0.125
+    velocity: 0.00390625
+
+@ring
+    origin: 1.0, 0.0, -1.0
+    mono-num: 18
+    radius: 0.125
+    velocity: 0.00390625
+
+@ring
+    origin: 3.0, 0.0, -1.0
+    mono-num: 19
+    radius: 0.125
+    velocity: 0.00390625
+
+@ring
+    origin: 5.0, 0.0, -1.0
+    mono-num: 20
+    radius: 0.125
+    velocity: 0.00390625
+
+# z = 1.0
+
+@ring
+    origin: -5.0, 0.0, 1.0
+    mono-num: 21
+    radius: 0.125
+    velocity: 0.00390625
+
+@ring
+    origin: -3.0, 0.0, 1.0
+    mono-num: 22
+    radius: 0.125
+    velocity: 0.00390625
+
+@ring
+    origin: -1.0, 0.0, 1.0
+    mono-num: 23
+    radius: 0.125
+    velocity: 0.00390625
+
+@ring
+    origin: 1.0, 0.0, 1.0
+    mono-num: 24
+    radius: 0.125
+    velocity: 0.00390625
+
+@ring
+    origin: 3.0, 0.0, 1.0
+    mono-num: 25
+    radius: 0.125
+    velocity: 0.00390625
+
+@ring
+    origin: 5.0, 0.0, 1.0
+    mono-num: 26
+    radius: 0.125
+    velocity: 0.00390625
+
+# z = 3.0
+
+@ring
+    origin: -5.0, 0.0, 3.0
+    mono-num: 27
+    radius: 0.125
+    velocity: 0.00390625
+
+@ring
+    origin: -3.0, 0.0, 3.0
+    mono-num: 28
+    radius: 0.125
+    velocity: 0.00390625
+
+@ring
+    origin: -1.0, 0.0, 3.0
+    mono-num: 29
+    radius: 0.125
+    velocity: 0.00390625
+
+@ring
+    origin: 1.0, 0.0, 3.0
+    mono-num: 30
+    radius: 0.125
+    velocity: 0.00390625
+
+@ring
+    origin: 3.0, 0.0, 3.0
+    mono-num: 31
+    radius: 0.125
+    velocity: 0.00390625
+
+@ring
+    origin: 5.0, 0.0, 3.0
+    mono-num: 32
+    radius: 0.125
+    velocity: 0.00390625
+
+# z = 5.0
+
+@ring
+    origin: -5.0, 0.0, 5.0
+    mono-num: 33
+    radius: 0.125
+    velocity: 0.00390625
+
+@ring
+    origin: -3.0, 0.0, 5.0
+    mono-num: 34
+    radius: 0.125
+    velocity: 0.00390625
+
+@ring
+    origin: -1.0, 0.0, 5.0
+    mono-num: 35
+    radius: 0.125
+    velocity: 0.00390625
+
+@ring
+    origin: 1.0, 0.0, 5.0
+    mono-num: 36
+    radius: 0.125
+    velocity: 0.00390625
+
+@ring
+    origin: 3.0, 0.0, 5.0
+    mono-num: 37
+    radius: 0.125
+    velocity: 0.00390625
+
+@ring
+    origin: 5.0, 0.0, 5.0
+    mono-num: 38
+    radius: 0.125
+    velocity: 0.00390625

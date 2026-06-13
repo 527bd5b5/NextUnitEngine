@@ -4,7 +4,7 @@
 #include <GL/glut.h>
 
 #include "GlutTools/GlutDebug.hpp"
-#include "Util.hpp"
+#include "Utils/String.hpp"
 
 namespace glutDebug
 {

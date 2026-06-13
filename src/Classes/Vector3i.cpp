@@ -53,7 +53,7 @@ Vector3i Vector3i::operator*(int i) const
 Vector3i Vector3i::operator/(int i) const
 {
     if (i == 0.0)
-        throw std::runtime_error("Error: Division by zero.");
+        throw std::runtime_error("Division by zero.");
 
     return Vector3i(x / i, y / i, z / i);
 }
@@ -88,7 +88,7 @@ Vector3i& Vector3i::operator*=(int i)
 Vector3i& Vector3i::operator/=(int i)
 {
     if (i == 0.0)
-        throw std::runtime_error("Error: Division by zero.");
+        throw std::runtime_error("Division by zero.");
 
     x /= i;
     y /= i;

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Classes/MonoTemplate.hpp"
-#include "Classes/Vector3.hpp"
 #include "Classes/Vector3i.hpp"
 
 namespace monoTemplate
@@ -10,11 +9,11 @@ namespace monoTemplate
     {
       public:
         Vector3i size;
+        double scale;
         bool fixEnd;
-        double noise;
 
         GridMonos();
-        GridMonos(const Vector3& origin);
-        void init();
+        void init() override;
+        void setFromScript() override;
     };
 }

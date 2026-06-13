@@ -6,7 +6,7 @@
 #include "Classes/Vector3.hpp"
 #include "Engine/MonoDeltaStore.hpp"
 #include "Engine/MonoEffectManager.hpp"
-#include "Util.hpp"
+#include "Utils/Math.hpp"
 
 namespace monoEffectManager
 {

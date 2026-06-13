@@ -5,27 +5,22 @@
 #include "Classes/KeySignal.hpp"
 #include "Classes/Mono.hpp"
 #include "Classes/MonoCluster.hpp"
-#include "Classes/Vector2.hpp"
-#include "Classes/Vector3.hpp"
-#include "Classes/Vector3i.hpp"
 #include "Engine/MonoEffectManager.hpp"
-#include "Engine/World.hpp"
+#include "Engine/WorldRunner.hpp"
 #include "GlutTools/GlutCamera.hpp"
 #include "GlutTools/GlutDraw.hpp"
 #include "GlutTools/GlutEvent.hpp"
 #include "GlutTools/GlutUtil.hpp"
-#include "Templates/GridMonos.hpp"
-#include "Templates/RandomMonos.hpp"
-#include "Templates/RingMonos.hpp"
-#include "Util.hpp"
 
 #define DELTA_TIMES 1.0 / 65536
 #define CLUSTER_THRESHOLD 1.0 / 8
 #define MONO_GRAPHIC_POINT_SIZE 1.0 / 16
 #define SHOW_MONO_INDEX_LABEL false
 
-namespace world
+namespace worldRunner
 {
+    std::vector<MonoTemplate*> monoTemplates;
+
     KeySignal keySignals[3] = {
         KeySignal('r', 1.0), KeySignal('c', 1.0), KeySignal('v', 1.0)
     };
@@ -37,30 +32,16 @@ namespace world
 
     void reset()
     {
-        glutCamera::cameraPosition = Vector3(0.0, 10.0, 0.0);
-        glutCamera::cameraRotation = Vector2(-90.0, 0.0);
-
-        namespace mt = monoTemplate;
-
         monoEffectManager::clear();
 
-        mt::RingMonos ringMonos;
-
-        ringMonos.radius = 1.0 / 256;
-        ringMonos.velocity = 1.0 / 256;
-        ringMonos.positionNoise = 1.0 / 256;
-
-        for (int i = 0; i < 16; i++)
-        {
-            ringMonos.origin.x = (double)(i % 4) * 2.0 - 3.0;
-            ringMonos.origin.z = (double)(i / 4) * 2.0 - 3.0;
-
-            ringMonos.init(i + 3);
-        }
+        for (MonoTemplate* mt : monoTemplates)
+            mt->init();
     }
 
     void update()
     {
+        namespace mem = monoEffectManager;
+
         for (KeySignal& keySignal : keySignals)
         {
             keySignal.setState(glutEvent::pressedKeys[keySignal.getKey()]);
@@ -74,31 +55,32 @@ namespace world
         {
             reset();
 
-            monoEffectManager::calcNextState(DELTA_TIMES, CLUSTER_THRESHOLD);
+            mem::calcNextState(DELTA_TIMES, CLUSTER_THRESHOLD);
         }
         else if (playWorld || stepKeySignal.getIsPressed())
         {
-            monoEffectManager::calcNextState(DELTA_TIMES, CLUSTER_THRESHOLD);
+            mem::calcNextState(DELTA_TIMES, CLUSTER_THRESHOLD);
         }
     }
 
     void draw()
     {
+        namespace mem = monoEffectManager;
+
         glutDraw::drawObject(
-            0.0, -1.0e-4, 0.0, [=]() { glutUtil::drawGridGround(20, 20, 0.5); }
+            0.0, -1.0e-4, 0.0, [=]() { glutUtil::drawGridGround(10, 10, 1.0); }
         );
 
         glutDraw::drawObject(
-            0.0, 0.0, 0.0, [=]() { glutUtil::drawCoordinateSystem(0.5); }
+            0.0, 0.0, 0.0, [=]() { glutUtil::drawCoordinateSystem(1.0); }
         );
 
-        for (int i = 0; i < monoEffectManager::monos.size(); i++)
+        for (int i = 0; i < mem::monos.size(); i++)
         {
             glColor3d(1.0, 1.0, 1.0);
 
             glutDraw::drawObject(
-                monoEffectManager::monos[i].position,
-                [=]() { glutSolidSphere(0.01, 8, 8); }
+                mem::monos[i].position, [=]() { glutSolidSphere(0.01, 8, 8); }
             );
 
             if (SHOW_MONO_INDEX_LABEL)
@@ -111,7 +93,7 @@ namespace world
 
         glColor3d(1.0, 0.0, 0.0);
 
-        for (MonoCluster& cluster : monoEffectManager::clusters)
+        for (MonoCluster& cluster : mem::clusters)
         {
             glutDraw::drawObject(
                 cluster.getCenterPosition(),

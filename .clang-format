@@ -9,3 +9,4 @@ FixNamespaceComments: false
 AlignAfterOpenBracket: BlockIndent
 AllowShortBlocksOnASingleLine: Empty
 AllowShortFunctionsOnASingleLine: Empty
+AlignTrailingComments: false

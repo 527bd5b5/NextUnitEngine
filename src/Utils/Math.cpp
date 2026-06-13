@@ -1,28 +1,10 @@
 #include <cmath>
-#include <functional>
-#include <iostream>
-#include <random>
 
-#include "Util.hpp"
-
-#define PI_15 3.141592653589793
+#include "Utils/Math.hpp"
 
 namespace util
 {
-    void printDebugLine(const std::string& text)
-    {
-        std::cout << "[DEBUG] " + text << std::endl;
-    }
-
-    std::function<double(void)>
-    getDoubleRandFunc(double min = 0.0, double max = 1.0)
-    {
-        std::random_device rd;
-        std::mt19937 engine(rd());
-        std::uniform_real_distribution<double> dist(min, max);
-
-        return std::bind(dist, engine);
-    }
+    double PI_15 = 3.141592653589793;
 
     double sigmoidFunc(double x)
     {

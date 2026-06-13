@@ -7,7 +7,7 @@
 
 #include "Classes/Vector2.hpp"
 #include "Classes/Vector3.hpp"
-#include "Engine/World.hpp"
+#include "Engine/WorldRunner.hpp"
 #include "GlutTools/GlutCamera.hpp"
 #include "GlutTools/GlutDraw.hpp"
 
@@ -15,24 +15,6 @@
 
 namespace glutDraw
 {
-    Vector3 prevPosition;
-
-    // deprecated
-    void setPosition(double x, double y, double z)
-    {
-        glTranslated(
-            x - prevPosition.x, y - prevPosition.y, z - prevPosition.z
-        );
-
-        prevPosition.set(x, y, z);
-    }
-
-    // deprecated
-    void setPosition(const Vector3& vector)
-    {
-        setPosition(vector.x, vector.y, vector.z);
-    }
-
     void
     drawObject(double x, double y, double z, std::function<void()> drawFunc)
     {
@@ -61,9 +43,7 @@ namespace glutDraw
         glRotated(-rotation.y, 0.0, 1.0, 0.0);
         glTranslated(-position.x, -position.y, -position.z);
 
-        prevPosition.set(0.0, 0.0, 0.0);
-
-        world::draw();
+        worldRunner::draw();
 
         glutSwapBuffers();
     }
@@ -74,7 +54,7 @@ namespace glutDraw
                     std::chrono::milliseconds(UPDATE_CYCLE_MSEC);
 
         glutCamera::update();
-        world::update();
+        worldRunner::update();
 
         glutPostRedisplay();
 

@@ -35,11 +35,11 @@ namespace util
 
     double untitledFunc(double x)
     {
-        return 1.0 / x * std::cos(2.0 * PI_15 * x);
+        return 1.0 / (x * x) * std::cos(2.0 * PI_15 * x);
     }
 
     double untitledFunc(double x, double a, double d)
     {
-        return a / x * std::cos(d * 2.0 * PI_15 * x);
+        return 1.0 * a / (x * x) * std::cos(d * 2.0 * PI_15 * x);
     }
 }

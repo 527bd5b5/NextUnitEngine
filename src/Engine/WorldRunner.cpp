@@ -12,8 +12,9 @@
 #include "GlutTools/GlutEvent.hpp"
 #include "GlutTools/GlutUtil.hpp"
 
-#define DELTA_TIMES 1.0 / 65536
-#define CLUSTER_THRESHOLD 1.0 / 8
+#define GRAPHIC_SCALE 0.1
+#define DELTA_TIMES 1.0 / 16384
+#define CLUSTER_THRESHOLD 0.3913165154385
 #define MONO_GRAPHIC_POINT_SIZE 1.0 / 16
 #define SHOW_MONO_INDEX_LABEL false
 
@@ -80,7 +81,8 @@ namespace worldRunner
             glColor3d(1.0, 1.0, 1.0);
 
             glutDraw::drawObject(
-                mem::monos[i].position, [=]() { glutSolidSphere(0.01, 8, 8); }
+                mem::monos[i].position * GRAPHIC_SCALE,
+                [=]() { glutSolidSphere(0.01, 8, 8); }
             );
 
             if (SHOW_MONO_INDEX_LABEL)
@@ -96,14 +98,16 @@ namespace worldRunner
         for (MonoCluster& cluster : mem::clusters)
         {
             glutDraw::drawObject(
-                cluster.getCenterPosition(),
+                cluster.getCenterPosition() * GRAPHIC_SCALE,
                 [=]() { glutSolidSphere(0.01, 8, 8); }
             );
 
             for (Mono& monoA : cluster.monos)
             {
                 GLdouble monoPositionA[] = {
-                    monoA.position.x, monoA.position.y, monoA.position.z
+                    monoA.position.x * GRAPHIC_SCALE,
+                    monoA.position.y * GRAPHIC_SCALE,
+                    monoA.position.z * GRAPHIC_SCALE
                 };
 
                 for (Mono& monoB : cluster.monos)
@@ -112,7 +116,9 @@ namespace worldRunner
                         continue;
 
                     GLdouble monoPositionB[] = {
-                        monoB.position.x, monoB.position.y, monoB.position.z
+                        monoB.position.x * GRAPHIC_SCALE,
+                        monoB.position.y * GRAPHIC_SCALE,
+                        monoB.position.z * GRAPHIC_SCALE
                     };
 
                     glutDraw::drawObject(

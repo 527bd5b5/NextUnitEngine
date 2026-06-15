@@ -21,20 +21,29 @@ namespace glutCamera
     Vector2 prevMousePosition(0.0, 0.0);
     bool isDragMouse = false;
 
-    KeySignal keySignals[10] = {
+    KeySignal keySignals[17] = {
         // for camera position
-        KeySignal('d', CAMERA_POS_MOVE_ACCELERATION),
-        KeySignal('a', CAMERA_POS_MOVE_ACCELERATION),
-        KeySignal('e', CAMERA_POS_MOVE_ACCELERATION),
-        KeySignal('q', CAMERA_POS_MOVE_ACCELERATION),
-        KeySignal('s', CAMERA_POS_MOVE_ACCELERATION),
-        KeySignal('w', CAMERA_POS_MOVE_ACCELERATION),
+        KeySignal('d', CAMERA_POS_MOVE_ACCELERATION), // right
+        KeySignal('a', CAMERA_POS_MOVE_ACCELERATION), // left
+        KeySignal('e', CAMERA_POS_MOVE_ACCELERATION), // up
+        KeySignal('q', CAMERA_POS_MOVE_ACCELERATION), // down
+        KeySignal('s', CAMERA_POS_MOVE_ACCELERATION), // backward
+        KeySignal('w', CAMERA_POS_MOVE_ACCELERATION), // forward
 
         // for camera rotation
-        KeySignal('i', CAMERA_ROT_MOVE_ACCELERATION),
-        KeySignal('k', CAMERA_ROT_MOVE_ACCELERATION),
-        KeySignal('j', CAMERA_ROT_MOVE_ACCELERATION),
-        KeySignal('l', CAMERA_ROT_MOVE_ACCELERATION)
+        KeySignal('i', CAMERA_ROT_MOVE_ACCELERATION), // up
+        KeySignal('k', CAMERA_ROT_MOVE_ACCELERATION), // down
+        KeySignal('j', CAMERA_ROT_MOVE_ACCELERATION), // left
+        KeySignal('l', CAMERA_ROT_MOVE_ACCELERATION), // right
+
+        // quick point
+        KeySignal('1', 1.0), // top
+        KeySignal('2', 1.0), // bottom
+        KeySignal('3', 1.0), // front
+        KeySignal('4', 1.0), // right
+        KeySignal('5', 1.0), // back
+        KeySignal('6', 1.0), // left
+        KeySignal('7', 1.0) // default
     };
 
     void updateKeySignals()
@@ -96,10 +105,56 @@ namespace glutCamera
             CAMERA_ROT_MOVE_SPEED;
     }
 
+    void setCameraQuickPoint()
+    {
+        if (keySignals[10].getIsPressed())
+        {
+            cameraPosition = Vector3(0.0, 5.0, 0.0);
+            cameraRotation = Vector2(-90.0, 0.0);
+        }
+
+        if (keySignals[11].getIsPressed())
+        {
+            cameraPosition = Vector3(0.0, -5.0, 0.0);
+            cameraRotation = Vector2(90.0, 0.0);
+        }
+
+        if (keySignals[12].getIsPressed())
+        {
+            cameraPosition = Vector3(0.0, 0.0, 5.0);
+            cameraRotation = Vector2(0.0, 0.0);
+        }
+
+        if (keySignals[13].getIsPressed())
+        {
+            cameraPosition = Vector3(5.0, 0.0, 0.0);
+            cameraRotation = Vector2(0.0, 90.0);
+        }
+
+        if (keySignals[14].getIsPressed())
+        {
+            cameraPosition = Vector3(0.0, 0.0, -5.0);
+            cameraRotation = Vector2(0.0, 180.0);
+        }
+
+        if (keySignals[15].getIsPressed())
+        {
+            cameraPosition = Vector3(-5.0, 0.0, 0.0);
+            cameraRotation = Vector2(0.0, 270.0);
+        }
+
+        if (keySignals[16].getIsPressed())
+        {
+            cameraPosition = Vector3(3.0, 3.0, 3.0);
+            cameraRotation = Vector2(-30.0, 45.0);
+        }
+    }
+
     void update()
     {
         updateKeySignals();
         updateCameraPosition();
         updateCameraRotation();
+        setCameraQuickPoint();
     }
 }

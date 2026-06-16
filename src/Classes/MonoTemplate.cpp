@@ -198,7 +198,15 @@ void MonoTemplate::initIndexShift()
 
 void MonoTemplate::init()
 {
-    throw std::logic_error("Function not overridden.");
+    if (typeid(*this) != typeid(MonoTemplate))
+        throw std::logic_error("Function not overridden.");
+
+    initPrepare(1);
+
+    setMonoPosition(0);
+    setMonoPositionDelta(0);
+
+    initComplete();
 }
 
 void MonoTemplate::setFromScript()

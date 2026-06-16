@@ -53,7 +53,11 @@ namespace worldReader
         {
             MonoTemplate* monoTemplatePoint;
 
-            if (alias == "ring")
+            if (alias == "mono")
+            {
+                monoTemplatePoint = new MonoTemplate;
+            }
+            else if (alias == "ring")
             {
                 monoTemplatePoint = new mt::RingMonos;
             }

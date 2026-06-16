@@ -15,14 +15,13 @@
 #include "GlutTools/GlutEvent.hpp"
 #include "GlutTools/GlutUtil.hpp"
 
-#define GRAPHIC_SCALE 0.1
-#define DELTA_TIMES 1.0 / 16384
-#define CLUSTER_THRESHOLD 0.3913165154385
-#define MONO_GRAPHIC_POINT_SIZE 1.0 / 16
-#define SHOW_MONO_INDEX_LABEL false
-
 namespace worldRunner
 {
+    double monoGraphicScale = 1.0;
+    double monoGraphicSize = 0.01;
+    double deltaTimes = 1.0 / 16384;
+    double clusterThreshold = 0.3913165154385;
+    bool showMonoIndexLabel = false;
     std::vector<MonoTemplate*> monoTemplates;
 
     KeySignal keySignals[4] = {
@@ -88,17 +87,17 @@ namespace worldRunner
         {
             reset();
 
-            mem::calcNextState(DELTA_TIMES, CLUSTER_THRESHOLD);
+            mem::calcNextState(deltaTimes, clusterThreshold);
         }
         else if (reloadKeySignal.getIsPressed())
         {
             reload();
 
-            mem::calcNextState(DELTA_TIMES, CLUSTER_THRESHOLD);
+            mem::calcNextState(deltaTimes, clusterThreshold);
         }
         else if (playWorld || stepKeySignal.getIsPressed())
         {
-            mem::calcNextState(DELTA_TIMES, CLUSTER_THRESHOLD);
+            mem::calcNextState(deltaTimes, clusterThreshold);
         }
     }
 
@@ -118,15 +117,16 @@ namespace worldRunner
         {
             glColor3d(1.0, 1.0, 1.0);
 
+            Vector3 position = mem::monos[i].position * monoGraphicScale;
+
             glutDraw::drawObject(
-                mem::monos[i].position * GRAPHIC_SCALE,
-                [=]() { glutSolidSphere(0.01, 8, 8); }
+                position, [=]() { glutSolidSphere(monoGraphicSize, 8, 8); }
             );
 
-            if (SHOW_MONO_INDEX_LABEL)
+            if (showMonoIndexLabel)
             {
                 glColor3d(0.25, 0.25, 0.25);
-                glRasterPos3d(0.0, 0.0, 0.0);
+                glRasterPos3d(position.x, position.y, position.z);
                 glutUtil::drawString(std::to_string(i));
             }
         }
@@ -136,16 +136,16 @@ namespace worldRunner
         for (MonoCluster& cluster : mem::clusters)
         {
             glutDraw::drawObject(
-                cluster.getCenterPosition() * GRAPHIC_SCALE,
-                [=]() { glutSolidSphere(0.01, 8, 8); }
+                cluster.getCenterPosition() * monoGraphicScale,
+                [=]() { glutSolidSphere(monoGraphicSize, 8, 8); }
             );
 
             for (Mono& monoA : cluster.monos)
             {
                 GLdouble monoPositionA[] = {
-                    monoA.position.x * GRAPHIC_SCALE,
-                    monoA.position.y * GRAPHIC_SCALE,
-                    monoA.position.z * GRAPHIC_SCALE
+                    monoA.position.x * monoGraphicScale,
+                    monoA.position.y * monoGraphicScale,
+                    monoA.position.z * monoGraphicScale
                 };
 
                 for (Mono& monoB : cluster.monos)
@@ -154,9 +154,9 @@ namespace worldRunner
                         continue;
 
                     GLdouble monoPositionB[] = {
-                        monoB.position.x * GRAPHIC_SCALE,
-                        monoB.position.y * GRAPHIC_SCALE,
-                        monoB.position.z * GRAPHIC_SCALE
+                        monoB.position.x * monoGraphicScale,
+                        monoB.position.y * monoGraphicScale,
+                        monoB.position.z * monoGraphicScale
                     };
 
                     glutDraw::drawObject(

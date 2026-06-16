@@ -15,6 +15,8 @@ int MonoTemplate::indexShift = 0;
 
 MonoTemplate::MonoTemplate() {}
 
+MonoTemplate::~MonoTemplate() {}
+
 void MonoTemplate::addMonoOriginNoise(int index)
 {
     if (originNoise != 0.0)

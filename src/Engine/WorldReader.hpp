@@ -3,4 +3,5 @@
 namespace worldReader
 {
     void readNueFile(const std::string& filePath);
+    void readNueFile();
 }

@@ -13,6 +13,8 @@
 
 namespace worldReader
 {
+    std::string nueFilePath;
+
     void throwInvalidFormat(int lineNum)
     {
         util::printErrorLine(
@@ -43,7 +45,7 @@ namespace worldReader
 
     void setMonoTemplate(
         const std::string& alias,
-        std::map<std::string, std::vector<std::string>> properties,
+        std::map<std::string, std::vector<std::string>>& properties,
         int sectionLineNum
     )
     {
@@ -74,11 +76,7 @@ namespace worldReader
                 throw std::runtime_error("Unregistered template name.");
             }
 
-            monoTemplatePoint->script = properties;
-
-            monoTemplatePoint->setFromScript();
-
-            worldRunner::monoTemplates.push_back(monoTemplatePoint);
+            worldRunner::addMonoTemplate(monoTemplatePoint, properties);
         }
         catch (const std::runtime_error& e)
         {
@@ -88,10 +86,19 @@ namespace worldReader
 
     void readNueFile(const std::string& filePath)
     {
-        std::ifstream file(filePath);
+        nueFilePath = filePath;
+
+        readNueFile();
+    }
+
+    void readNueFile()
+    {
+        std::ifstream file(nueFilePath);
 
         if (!file)
             util::printErrorLine("A non-existent file was specified.", 2);
+
+        worldRunner::deleteMonoTemplates();
 
         std::string line, alias;
         std::map<std::string, std::vector<std::string>> properties;

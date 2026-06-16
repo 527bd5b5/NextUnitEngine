@@ -1,5 +1,24 @@
 # Next Unit Engine - Template
 
+## Mono
+
+一つのmonoを設置します。
+
+```plaintext
+@mono
+    # 位置
+    origin: <x: double = 0.0>, <y: double = 0.0>, <z: double = 0.0>
+
+    # 初速
+    force: <x: double = 0.0>, <y: double = 0.0>, <z: double = 0.0>
+
+    # 位置のばらつき
+    origin-noise: <double = 0.0>
+
+    # 初速のばらつき
+    force-noise: <double = 0.0>
+```
+
 ## Ring
 
 回転するリング状のmono群をX-Z平面上に設置します。

@@ -29,16 +29,18 @@ make
 ./obj/NextUnitEngine world.nue
 ```
 
-実行ファイルはNUEファイルを読み取り、世界にmonoを設置します。基本的な書式は以下の通りです。各テンプレートの変数については[TEMPLATE.md](./TEMPLATE.md)を参照してください。
+実行ファイルはNUEファイルを読み取り、monoやeffectを設定します。基本的な書式は以下の通りです。世界の変数については[CONFIG.md](./CONFIG.md)を、各テンプレートの変数については[TEMPLATE.md](./TEMPLATE.md)を参照してください。
 
 ```plaintext:world.nue
 #<comment: something>
 
+$<config_name: string>: <value: something>
+
 @<template_name: string>
     origin: <x: double>, <y: double>, <z: double>
     force: <x: double>, <y: double>, <z: double>
-    origin-noise: <v: double>
-    force-noise: <v: double>
+    origin-noise: <double>
+    force-noise: <double>
     <option_property: string>: <option_value: something>
     ...
 

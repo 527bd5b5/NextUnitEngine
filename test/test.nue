@@ -1,3 +1,5 @@
+$mono-graphic-scale: 0.5
+
 @random
     mono-num: 500
     size: 20.0, 20.0, 20.0

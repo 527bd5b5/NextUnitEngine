@@ -22,6 +22,15 @@ namespace worldReader
         );
     }
 
+    void throwInvalidFormat(int lineNum, const std::runtime_error& e)
+    {
+        util::printErrorLine(
+            "Invalid formatting on line " + std::to_string(lineNum) + ": " +
+                e.what(),
+            3
+        );
+    }
+
     void throwInvalidFormat(const std::string& alias, int lineNum)
     {
         util::printErrorLine(
@@ -41,6 +50,49 @@ namespace worldReader
                 e.what(),
             3
         );
+    }
+
+    void setWorldConfig(
+        const std::string& key, const std::string& value, int currentLineNum
+    )
+    {
+        namespace wr = worldRunner;
+
+        try
+        {
+            if (key == "mono-graphic-scale")
+            {
+                wr::monoGraphicScale = std::stod(value);
+            }
+            else if (key == "mono-graphic-size")
+            {
+                wr::monoGraphicSize = std::stod(value);
+            }
+            else if (key == "delta-times")
+            {
+                wr::deltaTimes = std::stod(value);
+            }
+            else if (key == "cluster-threshold")
+            {
+                wr::clusterThreshold = std::stod(value);
+            }
+            else if (key == "show-mono-index-label")
+            {
+                wr::showMonoIndexLabel = value == "true";
+            }
+            else
+            {
+                throw std::runtime_error("Unregistered config name.");
+            }
+        }
+        catch (const std::runtime_error& e)
+        {
+            throwInvalidFormat(currentLineNum, e);
+        }
+        catch (const std::exception& e)
+        {
+            throwInvalidFormat(currentLineNum);
+        }
     }
 
     void setMonoTemplate(
@@ -82,6 +134,26 @@ namespace worldReader
         {
             throwInvalidFormat(alias, sectionLineNum, e);
         }
+    }
+
+    std::pair<std::string, std::vector<std::string>>
+    readProperty(const std::string& line, int currentLineNum)
+    {
+        std::vector<std::string> property = util::splitString(line, ':');
+
+        if (property.size() != 2)
+            throwInvalidFormat(currentLineNum);
+
+        util::trimSpace(property);
+
+        std::vector<std::string> values = util::splitString(property[1], ',');
+
+        if (values.size() < 1)
+            throwInvalidFormat(currentLineNum);
+
+        util::trimSpace(values);
+
+        return std::make_pair(property[0], values);
     }
 
     void readNueFile(const std::string& filePath)
@@ -128,25 +200,22 @@ namespace worldReader
                 alias = line.substr(1);
                 sectionLineNum = currentLineNum;
             }
+            else if (line[0] == '$')
+            {
+                auto property = readProperty(line, currentLineNum);
+
+                if (property.second.size() != 1)
+                    throwInvalidFormat(currentLineNum);
+
+                setWorldConfig(
+                    property.first.substr(1), property.second[0], currentLineNum
+                );
+            }
             else
             {
-                std::vector<std::string> property =
-                    util::splitString(line, ':');
+                auto property = readProperty(line, currentLineNum);
 
-                if (property.size() != 2)
-                    throwInvalidFormat(currentLineNum);
-
-                util::trimSpace(property);
-
-                std::vector<std::string> values =
-                    util::splitString(property[1], ',');
-
-                if (values.size() < 1)
-                    throwInvalidFormat(currentLineNum);
-
-                util::trimSpace(values);
-
-                properties[property[0]] = values;
+                properties[property.first] = property.second;
             }
 
             currentLineNum++;

@@ -1,4 +1,6 @@
+#include <map>
 #include <string>
+#include <vector>
 
 #include <GL/glut.h>
 
@@ -6,6 +8,7 @@
 #include "Classes/Mono.hpp"
 #include "Classes/MonoCluster.hpp"
 #include "Engine/MonoEffectManager.hpp"
+#include "Engine/WorldReader.hpp"
 #include "Engine/WorldRunner.hpp"
 #include "GlutTools/GlutCamera.hpp"
 #include "GlutTools/GlutDraw.hpp"
@@ -22,14 +25,36 @@ namespace worldRunner
 {
     std::vector<MonoTemplate*> monoTemplates;
 
-    KeySignal keySignals[3] = {
-        KeySignal('r', 1.0), KeySignal('c', 1.0), KeySignal('v', 1.0)
+    KeySignal keySignals[4] = {
+        KeySignal('r', 1.0), KeySignal('t', 1.0), KeySignal('c', 1.0),
+        KeySignal('v', 1.0)
     };
     KeySignal& resetKeySignal = keySignals[0];
-    KeySignal& playKeySignal = keySignals[1];
-    KeySignal& stepKeySignal = keySignals[2];
+    KeySignal& reloadKeySignal = keySignals[1];
+    KeySignal& playKeySignal = keySignals[2];
+    KeySignal& stepKeySignal = keySignals[3];
 
     bool playWorld = true;
+
+    void addMonoTemplate(
+        MonoTemplate* mt,
+        std::map<std::string, std::vector<std::string>>& properties
+    )
+    {
+        mt->script = properties;
+
+        mt->setFromScript();
+
+        monoTemplates.push_back(mt);
+    }
+
+    void deleteMonoTemplates()
+    {
+        for (MonoTemplate* mt : monoTemplates)
+            delete mt;
+
+        monoTemplates.clear();
+    }
 
     void reset()
     {
@@ -37,6 +62,13 @@ namespace worldRunner
 
         for (MonoTemplate* mt : monoTemplates)
             mt->init();
+    }
+
+    void reload()
+    {
+        worldReader::readNueFile();
+
+        reset();
     }
 
     void update()
@@ -55,6 +87,12 @@ namespace worldRunner
         if (resetKeySignal.getIsPressed())
         {
             reset();
+
+            mem::calcNextState(DELTA_TIMES, CLUSTER_THRESHOLD);
+        }
+        else if (reloadKeySignal.getIsPressed())
+        {
+            reload();
 
             mem::calcNextState(DELTA_TIMES, CLUSTER_THRESHOLD);
         }

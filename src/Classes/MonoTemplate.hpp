@@ -51,6 +51,7 @@ class MonoTemplate
     std::map<std::string, std::vector<std::string>> script;
 
     MonoTemplate();
+    ~MonoTemplate();
     static void initIndexShift();
     virtual void init();
     virtual void setFromScript();

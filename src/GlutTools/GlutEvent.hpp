@@ -4,6 +4,7 @@
 
 namespace glutEvent
 {
+    extern double cameraFov;
     extern bool pressedKeys[256];
     extern bool pressedMouseButtons[3];
     extern Vector2 mousePosition;

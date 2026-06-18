@@ -1,5 +1,3 @@
-﻿#include <iostream>
-
 #include <GL/glut.h>
 
 #include "Engine/WorldReader.hpp"
@@ -7,22 +5,26 @@
 #include "GlutTools/GlutDraw.hpp"
 #include "GlutTools/GlutEvent.hpp"
 #include "NextUnitEngine.hpp"
-#include "Utils/String.hpp"
+#include "Option.hpp"
+
+int frameWidth = 640;
+int frameHeight = 480;
+int framePositionX = 10;
+int framePositionY = 10;
 
 int main(int argc, const char** argv)
 {
-    if (argc < 2)
-        util::printErrorLine("NUE file not specified.", 1);
+    option::set(argc, argv);
 
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
-    glutInitWindowPosition(10, 10);
-    glutInitWindowSize(640, 480);
+    glutInitWindowPosition(framePositionX, framePositionY);
+    glutInitWindowSize(frameWidth, frameHeight);
     glutInit(&argc, (char**)argv);
     glutCreateWindow("Next Unit Engine");
 
     glutEvent::init();
     glutDraw::init();
-    worldReader::readNueFile(argv[1]);
+    worldReader::readNueFile();
     worldRunner::reset();
 
     glutMainLoop();

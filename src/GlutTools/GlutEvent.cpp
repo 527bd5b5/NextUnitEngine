@@ -4,13 +4,13 @@
 #include "GlutTools/GlutDebug.hpp"
 #include "GlutTools/GlutEvent.hpp"
 
-#define FOV 60.0
 #define DEBUG_MOUSE false
 #define DEBUG_MOTION false
 #define DEBUG_KEYBOARD false
 
 namespace glutEvent
 {
+    double cameraFov = 60.0;
     bool pressedKeys[256] = {};
     bool pressedMouseButtons[3] = {};
     Vector2 mousePosition(0.0, 0.0);
@@ -22,7 +22,7 @@ namespace glutEvent
         glMatrixMode(GL_PROJECTION);
 
         glLoadIdentity();
-        gluPerspective(FOV, (double)w / (double)h, 0.1, 100.0);
+        gluPerspective(cameraFov, (double)w / (double)h, 0.1, 100.0);
 
         glMatrixMode(GL_MODELVIEW);
     }

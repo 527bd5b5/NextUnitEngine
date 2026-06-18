@@ -11,10 +11,10 @@
 #include "GlutTools/GlutCamera.hpp"
 #include "GlutTools/GlutDraw.hpp"
 
-#define UPDATE_CYCLE_MSEC 10 // 100 fps
-
 namespace glutDraw
 {
+    int updateCycle = 10; // 100 fps
+
     void
     drawObject(double x, double y, double z, std::function<void()> drawFunc)
     {
@@ -51,7 +51,7 @@ namespace glutDraw
     void idle()
     {
         auto wake = std::chrono::system_clock::now() +
-                    std::chrono::milliseconds(UPDATE_CYCLE_MSEC);
+                    std::chrono::milliseconds(updateCycle);
 
         glutCamera::update();
         worldRunner::update();

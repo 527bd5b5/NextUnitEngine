@@ -24,16 +24,18 @@ namespace worldRunner
     bool showMonoIndexLabel = false;
     std::vector<MonoTemplate*> monoTemplates;
 
-    KeySignal keySignals[4] = {
+    KeySignal keySignals[5] = {
         KeySignal('r', 1.0), KeySignal('t', 1.0), KeySignal('c', 1.0),
-        KeySignal('v', 1.0)
+        KeySignal('v', 1.0), KeySignal('f', 1.0)
     };
     KeySignal& resetKeySignal = keySignals[0];
     KeySignal& reloadKeySignal = keySignals[1];
     KeySignal& playKeySignal = keySignals[2];
     KeySignal& stepKeySignal = keySignals[3];
+    KeySignal& toggleClusterKeySignal = keySignals[4];
 
     bool playWorld = true;
+    bool showCluster = true;
 
     void addMonoTemplate(
         MonoTemplate* mt,
@@ -83,6 +85,9 @@ namespace worldRunner
         if (playKeySignal.getIsPressed())
             playWorld = !playWorld;
 
+        if (toggleClusterKeySignal.getIsPressed())
+            showCluster = !showCluster;
+
         if (resetKeySignal.getIsPressed())
         {
             reset();
@@ -97,7 +102,7 @@ namespace worldRunner
         }
         else if (playWorld || stepKeySignal.getIsPressed())
         {
-            mem::calcNextState(deltaTimes, clusterThreshold);
+            mem::calcNextState(deltaTimes, showCluster ? clusterThreshold : 0);
         }
     }
 
@@ -132,6 +137,9 @@ namespace worldRunner
         }
 
         glColor3d(1.0, 0.0, 0.0);
+
+        if (!showCluster)
+            return;
 
         for (MonoCluster& cluster : mem::clusters)
         {

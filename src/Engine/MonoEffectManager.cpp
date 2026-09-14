@@ -120,7 +120,7 @@ namespace monoEffectManager
 
                     positionDeltaSum += positionDelta * power;
 
-                    if (magnitude <= clusterThreshold)
+                    if (clusterThreshold > 0 && magnitude <= clusterThreshold)
                         setCluster(monos[i], monos[j]);
                 }
                 else

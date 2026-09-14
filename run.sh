@@ -1,3 +1,9 @@
 #!/bin/bash
 
-./obj/NextUnitEngine test/test.nue
+if [ -z "$1" ]; then
+    target="scripts/test.nue"
+else
+    target="$1"
+fi
+
+./obj/NextUnitEngine "$target"

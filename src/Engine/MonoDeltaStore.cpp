@@ -39,6 +39,7 @@ namespace monoDeltaStore
     void clear()
     {
         monoNum = 0;
+
         monoDeltas.clear();
         stepIndexDict.clear();
     }

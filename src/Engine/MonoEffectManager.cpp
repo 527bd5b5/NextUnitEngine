@@ -2,6 +2,7 @@
 
 #include "Classes/Mono.hpp"
 #include "Classes/MonoCluster.hpp"
+#include "Classes/MonoOrbit.hpp"
 #include "Classes/MonoTemplate.hpp"
 #include "Classes/Vector3.hpp"
 #include "Engine/MonoDeltaStore.hpp"
@@ -13,6 +14,7 @@ namespace monoEffectManager
     std::vector<Mono> monos;
     std::vector<Mono> nextStepMonos;
     std::vector<MonoCluster> clusters;
+    std::vector<MonoOrbit> orbits;
 
     void clear()
     {
@@ -30,6 +32,8 @@ namespace monoEffectManager
 
         monos = std::vector<Mono>(num);
         nextStepMonos = std::vector<Mono>(num);
+        orbits = std::vector<MonoOrbit>(num);
+
         clusters.clear();
 
         for (int i = 0; i < num; i++)
@@ -49,6 +53,7 @@ namespace monoEffectManager
 
             monos.push_back(mono);
             nextStepMonos.push_back(mono);
+            orbits.push_back(MonoOrbit());
         }
 
         clusters.clear();
@@ -85,7 +90,9 @@ namespace monoEffectManager
         return util::untitledFunc(x);
     }
 
-    void calcNextState(double deltaTimes, double clusterThreshold)
+    void calcNextState(
+        double deltaTimes, double clusterThreshold, int orbitRemaining
+    )
     {
         namespace mds = monoDeltaStore;
 
@@ -94,7 +101,11 @@ namespace monoEffectManager
         clusters.clear();
 
         for (int i = 0; i < monoNum; i++)
+        {
             monos[i] = Mono(nextStepMonos[i]);
+
+            orbits[i].insertPosition(monos[i], orbitRemaining);
+        }
 
         for (int i = 0; i < monoNum; i++)
         {

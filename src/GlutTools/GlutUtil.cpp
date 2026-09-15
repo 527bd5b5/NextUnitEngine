@@ -18,15 +18,15 @@ namespace glutUtil
 
         glBegin(GL_LINES);
 
-        glColor3d(1.0, 0.0, 0.0);
+        glColor3d(0.5, 0.0, 0.0);
         glVertex3dv(coordinateSystemVertex[0]);
         glVertex3dv(coordinateSystemVertex[1]);
 
-        glColor3d(0.0, 1.0, 0.0);
+        glColor3d(0.0, 0.5, 0.0);
         glVertex3dv(coordinateSystemVertex[0]);
         glVertex3dv(coordinateSystemVertex[2]);
 
-        glColor3d(0.0, 0.0, 1.0);
+        glColor3d(0.0, 0.0, 0.5);
         glVertex3dv(coordinateSystemVertex[0]);
         glVertex3dv(coordinateSystemVertex[3]);
 
@@ -36,15 +36,15 @@ namespace glutUtil
         glRasterPos3dv(coordinateSystemVertex[0]);
         drawString("O");
 
-        glColor3d(1.0, 0.0, 0.0);
+        glColor3d(0.5, 0.0, 0.0);
         glRasterPos3dv(coordinateSystemVertex[1]);
         drawString("X");
 
-        glColor3d(0.0, 1.0, 0.0);
+        glColor3d(0.0, 0.5, 0.0);
         glRasterPos3dv(coordinateSystemVertex[2]);
         drawString("Y");
 
-        glColor3d(0.0, 0.0, 1.0);
+        glColor3d(0.0, 0.0, 0.5);
         glRasterPos3dv(coordinateSystemVertex[3]);
         drawString("Z");
     }

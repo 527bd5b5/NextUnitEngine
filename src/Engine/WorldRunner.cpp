@@ -7,6 +7,7 @@
 #include "Classes/KeySignal.hpp"
 #include "Classes/Mono.hpp"
 #include "Classes/MonoCluster.hpp"
+#include "Classes/MonoOrbit.hpp"
 #include "Engine/MonoEffectManager.hpp"
 #include "Engine/WorldReader.hpp"
 #include "Engine/WorldRunner.hpp"
@@ -19,23 +20,29 @@ namespace worldRunner
 {
     double monoGraphicScale = 1.0;
     double monoGraphicSize = 0.01;
-    double deltaTimes = 1.0 / 16384;
+    double deltaTimes = 1.0 / 16384; // 2^(-14)
     double clusterThreshold = 0.3913165154385;
     bool showMonoIndexLabel = false;
+    int orbitRemaining = 10;
+    int orbitThinning = 2;
     std::vector<MonoTemplate*> monoTemplates;
 
-    KeySignal keySignals[5] = {
-        KeySignal('r', 1.0), KeySignal('t', 1.0), KeySignal('c', 1.0),
-        KeySignal('v', 1.0), KeySignal('f', 1.0)
-    };
+    KeySignal keySignals[8] = {KeySignal('r', 1.0), KeySignal('t', 1.0),
+                               KeySignal('c', 1.0), KeySignal('v', 1.0),
+                               KeySignal('f', 1.0), KeySignal('g', 1.0),
+                               KeySignal('[', 1.0), KeySignal(']', 1.0)};
     KeySignal& resetKeySignal = keySignals[0];
     KeySignal& reloadKeySignal = keySignals[1];
     KeySignal& playKeySignal = keySignals[2];
     KeySignal& stepKeySignal = keySignals[3];
     KeySignal& toggleClusterKeySignal = keySignals[4];
+    KeySignal& toggleOrbitKeySignal = keySignals[5];
+    KeySignal& shortenOrbitKeySignal = keySignals[6];
+    KeySignal& lengthenOrbitKeySignal = keySignals[7];
 
     bool playWorld = true;
     bool showCluster = true;
+    bool showOrbit = true;
 
     void addMonoTemplate(
         MonoTemplate* mt,
@@ -88,35 +95,37 @@ namespace worldRunner
         if (toggleClusterKeySignal.getIsPressed())
             showCluster = !showCluster;
 
+        if (toggleOrbitKeySignal.getIsPressed())
+            showOrbit = !showOrbit;
+
+        if (shortenOrbitKeySignal.getIsPressed() &&
+            orbitRemaining - orbitThinning > orbitThinning)
+            orbitRemaining -= orbitThinning;
+
+        if (lengthenOrbitKeySignal.getIsPressed())
+            orbitRemaining += orbitThinning;
+
         if (resetKeySignal.getIsPressed())
         {
             reset();
-
-            mem::calcNextState(deltaTimes, clusterThreshold);
         }
         else if (reloadKeySignal.getIsPressed())
         {
             reload();
-
-            mem::calcNextState(deltaTimes, clusterThreshold);
         }
-        else if (playWorld || stepKeySignal.getIsPressed())
+        else if (!playWorld && !stepKeySignal.getIsPressed())
         {
-            mem::calcNextState(deltaTimes, showCluster ? clusterThreshold : 0);
+            return;
         }
+
+        mem::calcNextState(
+            deltaTimes, showCluster ? clusterThreshold : 0, orbitRemaining
+        );
     }
 
-    void draw()
+    void drawMonos()
     {
         namespace mem = monoEffectManager;
-
-        glutDraw::drawObject(
-            0.0, -1.0e-4, 0.0, [=]() { glutUtil::drawGridGround(10, 10, 1.0); }
-        );
-
-        glutDraw::drawObject(
-            0.0, 0.0, 0.0, [=]() { glutUtil::drawCoordinateSystem(1.0); }
-        );
 
         for (int i = 0; i < mem::monos.size(); i++)
         {
@@ -135,11 +144,13 @@ namespace worldRunner
                 glutUtil::drawString(std::to_string(i));
             }
         }
+    }
+
+    void drawClusters()
+    {
+        namespace mem = monoEffectManager;
 
         glColor3d(1.0, 0.0, 0.0);
-
-        if (!showCluster)
-            return;
 
         for (MonoCluster& cluster : mem::clusters)
         {
@@ -182,5 +193,86 @@ namespace worldRunner
                 }
             }
         }
+    }
+
+    void drawOrbits()
+    {
+        namespace mem = monoEffectManager;
+
+        for (int i = 0; i < mem::monos.size(); i++)
+        {
+            bool isCluster = false;
+
+            for (MonoCluster& cluster : mem::clusters)
+            {
+                if (cluster.contains(mem::monos[i]))
+                {
+                    isCluster = true;
+
+                    break;
+                }
+            }
+
+            MonoOrbit& orbit = mem::orbits[i];
+            int size = orbit.positions.size();
+
+            for (int i = 0; i < size - orbitThinning; i += orbitThinning)
+            {
+                GLdouble orbitPositionA[] = {
+                    orbit.positions[i].x * monoGraphicScale,
+                    orbit.positions[i].y * monoGraphicScale,
+                    orbit.positions[i].z * monoGraphicScale
+                };
+
+                GLdouble orbitPositionB[] = {
+                    orbit.positions[i + orbitThinning].x * monoGraphicScale,
+                    orbit.positions[i + orbitThinning].y * monoGraphicScale,
+                    orbit.positions[i + orbitThinning].z * monoGraphicScale
+                };
+
+                double level = (double)(size - i) / size;
+
+                if (isCluster)
+                {
+                    glColor3d(level, level / 2.0, 0.0);
+                }
+                else
+                {
+                    glColor3d(level, level, level);
+                }
+
+                glutDraw::drawObject(
+                    0.0, 0.0, 0.0,
+                    [=]()
+                    {
+                        glBegin(GL_LINES);
+
+                        glVertex3dv(orbitPositionA);
+                        glVertex3dv(orbitPositionB);
+
+                        glEnd();
+                    }
+                );
+            }
+        }
+    }
+
+    void draw()
+    {
+        glutDraw::drawObject(
+            0.0, -1.0e-4, 0.0, [=]() { glutUtil::drawGridGround(10, 10, 1.0); }
+        );
+
+        glutDraw::drawObject(
+            0.0, 0.0, 0.0, [=]() { glutUtil::drawCoordinateSystem(1.0); }
+        );
+
+        drawMonos();
+
+        if (showCluster)
+            drawClusters();
+
+        if (showOrbit)
+            drawOrbits();
     }
 }

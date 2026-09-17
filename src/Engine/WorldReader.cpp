@@ -6,9 +6,11 @@
 #include "Classes/MonoTemplate.hpp"
 #include "Engine/WorldReader.hpp"
 #include "Engine/WorldRunner.hpp"
+#include "GlutTools/GlutCamera.hpp"
 #include "Templates/GridMonos.hpp"
 #include "Templates/RandomMonos.hpp"
 #include "Templates/RingMonos.hpp"
+#include "Utils/Math.hpp"
 #include "Utils/String.hpp"
 
 namespace worldReader
@@ -53,32 +55,72 @@ namespace worldReader
     }
 
     void setWorldConfig(
-        const std::string& key, const std::string& value, int currentLineNum
+        const std::string& key, const std::vector<std::string>& values,
+        int currentLineNum
     )
     {
         namespace wr = worldRunner;
+        namespace gc = glutCamera;
 
         try
         {
             if (key == "mono-graphic-scale")
             {
-                wr::monoGraphicScale = std::stod(value);
+                wr::monoGraphicScale = std::stod(values[0]);
             }
             else if (key == "mono-graphic-size")
             {
-                wr::monoGraphicSize = std::stod(value);
+                wr::monoGraphicSize = std::stod(values[0]);
             }
             else if (key == "delta-times")
             {
-                wr::deltaTimes = std::stod(value);
+                wr::deltaTimes = std::stod(values[0]);
             }
             else if (key == "cluster-threshold")
             {
-                wr::clusterThreshold = std::stod(value);
+                wr::clusterThreshold = std::stod(values[0]);
             }
             else if (key == "show-mono-index-label")
             {
-                wr::showMonoIndexLabel = value == "true";
+                wr::showMonoIndexLabel = values[0] == "true";
+            }
+            else if (key == "camera-position")
+            {
+                if (values.size() != 3)
+                    throwInvalidFormat(key, currentLineNum);
+
+                gc::initCameraPosition.set(
+                    std::stod(values[0]), std::stod(values[1]),
+                    std::stod(values[2])
+                );
+            }
+            else if (key == "camera-rotation")
+            {
+                if (values.size() != 2)
+                    throwInvalidFormat(key, currentLineNum);
+
+                gc::initCameraRotation.set(
+                    std::stod(values[0]), std::stod(values[1])
+                );
+            }
+            else if (key == "camera-arc")
+            {
+                if (values.size() != 6)
+                    throwInvalidFormat(key, currentLineNum);
+
+                gc::initCameraPosition = util::getSphericalCoordinates(
+                    90.0 + std::stod(values[3]), 90.0 - std::stod(values[4]),
+                    std::stod(values[5])
+                );
+
+                gc::initCameraPosition += Vector3(
+                    std::stod(values[0]), std::stod(values[1]),
+                    std::stod(values[2])
+                );
+
+                gc::initCameraRotation.set(
+                    std::stod(values[3]), std::stod(values[4])
+                );
             }
             else
             {
@@ -204,11 +246,8 @@ namespace worldReader
             {
                 auto property = readProperty(line, currentLineNum);
 
-                if (property.second.size() != 1)
-                    throwInvalidFormat(currentLineNum);
-
                 setWorldConfig(
-                    property.first.substr(1), property.second[0], currentLineNum
+                    property.first.substr(1), property.second, currentLineNum
                 );
             }
             else

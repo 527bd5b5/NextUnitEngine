@@ -1,6 +1,5 @@
 #include <GL/glut.h>
 
-#include "Engine/WorldReader.hpp"
 #include "Engine/WorldRunner.hpp"
 #include "GlutTools/GlutDraw.hpp"
 #include "GlutTools/GlutEvent.hpp"
@@ -24,8 +23,7 @@ int main(int argc, const char** argv)
 
     glutEvent::init();
     glutDraw::init();
-    worldReader::readNueFile();
-    worldRunner::reset();
+    worldRunner::reload();
 
     glutMainLoop();
 

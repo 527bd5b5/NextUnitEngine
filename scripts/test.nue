@@ -1,3 +1,5 @@
+$camera-arc: 0.0, 0.0, 0.0, -30.0, 45.0, 1.0
+
 @random
-    mono-num: 500
-    size: 5.0, 5.0, 5.0
+    mono-num: 4
+    size: 0.5, 0.5, 0.5

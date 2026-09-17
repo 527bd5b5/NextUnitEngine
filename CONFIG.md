@@ -39,3 +39,27 @@ monoの番地を描画します。
 ```plaintext
 $show-mono-index-label: <boolean = false>
 ```
+
+## Camera Position
+
+スクリプト読み込み時にカメラの位置を設定します。
+
+```plaintext
+$camera-position: <x: double = 3.06186217848>, <y: double = 2.5>, <z: double = 3.06186217848>
+```
+
+## Camera Rotation
+
+スクリプト読み込み時にカメラの角度を設定します。
+
+```plaintext
+$camera-rotation: <t: double = -30.0>, <p: double = 45.0>
+```
+
+## Camera Arc
+
+スクリプト読み込み時に特定の座標（x, y, z）を任意の角度（t, p）と距離（r）で捉えるカメラを設定します。
+
+```plaintext
+$camera-arc: <x: double = 0.0>, <y: double = 0.0>, <z: double = 0.0>, <t: double = -30.0>, <p: double = 45.0>, <r: double = 5.0>
+```

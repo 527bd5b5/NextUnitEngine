@@ -15,13 +15,23 @@
 
 namespace glutCamera
 {
-    Vector3 cameraPosition(3.0, 3.0, 3.0);
-    Vector2 cameraRotation(-30.0, 45.0); // deg
+    double THETA = -30.0; // deg
+    double PHI = 45.0; // deg
+    double RADIUS = 5.0;
+
+    Vector3 defaultCameraPosition =
+        util::getSphericalCoordinates(90.0 + THETA, 90.0 - PHI, RADIUS);
+    Vector2 defaultCameraRotation(THETA, PHI);
+
+    Vector3 cameraPosition = Vector3(defaultCameraPosition);
+    Vector2 cameraRotation = Vector2(defaultCameraRotation);
+    Vector3 initCameraPosition = Vector3(defaultCameraPosition);
+    Vector2 initCameraRotation = Vector2(defaultCameraRotation);
 
     Vector2 prevMousePosition(0.0, 0.0);
     bool isDragMouse = false;
 
-    KeySignal keySignals[17] = {
+    KeySignal keySignals[18] = {
         // for camera position
         KeySignal('d', CAMERA_POS_MOVE_ACCELERATION), // right
         KeySignal('a', CAMERA_POS_MOVE_ACCELERATION), // left
@@ -43,7 +53,8 @@ namespace glutCamera
         KeySignal('4', 1.0), // right
         KeySignal('5', 1.0), // back
         KeySignal('6', 1.0), // left
-        KeySignal('7', 1.0) // default
+        KeySignal('7', 1.0), // default
+        KeySignal('8', 1.0) // custom
     };
 
     void updateKeySignals()
@@ -53,6 +64,12 @@ namespace glutCamera
             keySignal.setState(glutEvent::pressedKeys[keySignal.getKey()]);
             keySignal.updateState();
         }
+    }
+
+    void reset()
+    {
+        cameraPosition = Vector3(initCameraPosition);
+        cameraRotation = Vector2(initCameraRotation);
     }
 
     void updateCameraPosition()
@@ -145,8 +162,14 @@ namespace glutCamera
 
         if (keySignals[16].getIsPressed())
         {
-            cameraPosition = Vector3(3.0, 3.0, 3.0);
-            cameraRotation = Vector2(-30.0, 45.0);
+            cameraPosition = Vector3(defaultCameraPosition);
+            cameraRotation = Vector2(defaultCameraRotation);
+        }
+
+        if (keySignals[17].getIsPressed())
+        {
+            cameraPosition = Vector3(initCameraPosition);
+            cameraRotation = Vector2(initCameraRotation);
         }
     }
 

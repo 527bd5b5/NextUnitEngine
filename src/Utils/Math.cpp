@@ -1,10 +1,27 @@
 #include <cmath>
 
+#include "Classes/Vector3.hpp"
 #include "Utils/Math.hpp"
 
 namespace util
 {
     double PI_15 = 3.141592653589793;
+
+    double convertDegToRad(double deg)
+    {
+        return 2.0 * util::PI_15 * (deg / 360.0);
+    }
+
+    Vector3 getSphericalCoordinates(double theta, double phi, double radius)
+    {
+        theta = convertDegToRad(theta);
+        phi = convertDegToRad(phi);
+
+        return Vector3(
+            radius * std::sin(theta) * std::cos(phi), radius * std::cos(theta),
+            radius * std::sin(theta) * std::sin(phi)
+        );
+    }
 
     double sigmoidFunc(double x)
     {

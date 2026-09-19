@@ -23,10 +23,12 @@ namespace worldRunner
     double deltaTimes = 1.0 / 16384; // 2^(-14)
     double clusterThreshold = 0.3913165154385;
     bool showMonoIndexLabel = false;
+    long lifeCycle = 0;
     std::vector<MonoTemplate*> monoTemplates;
 
     int orbitRemaining = 10;
     int orbitThinning = 2;
+    long updateCycleCount = 0;
 
     KeySignal keySignals[8] = {KeySignal('r', 1.0), KeySignal('t', 1.0),
                                KeySignal('c', 1.0), KeySignal('v', 1.0),
@@ -71,6 +73,8 @@ namespace worldRunner
 
         for (MonoTemplate* mt : monoTemplates)
             mt->init();
+
+        updateCycleCount = 0;
     }
 
     void reload()
@@ -118,6 +122,18 @@ namespace worldRunner
         else if (!playWorld && !stepKeySignal.getIsPressed())
         {
             return;
+        }
+
+        if (lifeCycle > 0)
+        {
+            if (updateCycleCount >= lifeCycle)
+            {
+                reset();
+            }
+            else
+            {
+                updateCycleCount++;
+            }
         }
 
         mem::calcNextState(

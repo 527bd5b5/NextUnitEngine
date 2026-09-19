@@ -17,6 +17,11 @@ namespace util
         printDebugLine(std::to_string(i));
     }
 
+    void printDebugLine(const long i)
+    {
+        printDebugLine(std::to_string(i));
+    }
+
     void printDebugLine(const double d)
     {
         printDebugLine(std::to_string(d));

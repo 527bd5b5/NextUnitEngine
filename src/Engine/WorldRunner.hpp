@@ -11,6 +11,7 @@ namespace worldRunner
     extern double deltaTimes;
     extern double clusterThreshold;
     extern bool showMonoIndexLabel;
+    extern long lifeCycle;
     extern std::vector<MonoTemplate*> monoTemplates;
 
     void addMonoTemplate(

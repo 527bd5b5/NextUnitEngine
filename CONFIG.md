@@ -40,6 +40,14 @@ monoの番地を描画します。
 $show-mono-index-label: <boolean = false>
 ```
 
+## Life Cycle
+
+自動的に世界を初期化する間隔（秒数）を指定します。
+
+```plaintext
+$life-cycle: <long = 0>
+```
+
 ## Camera Position
 
 スクリプト読み込み時にカメラの位置を設定します。

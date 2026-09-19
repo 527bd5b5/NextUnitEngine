@@ -7,6 +7,7 @@ namespace util
 {
     void printDebugLine(const std::string& text);
     void printDebugLine(int i);
+    void printDebugLine(long i);
     void printDebugLine(double d);
     void printErrorLine(const std::string& text, int code);
     std::vector<std::string>

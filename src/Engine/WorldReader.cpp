@@ -7,6 +7,7 @@
 #include "Engine/WorldReader.hpp"
 #include "Engine/WorldRunner.hpp"
 #include "GlutTools/GlutCamera.hpp"
+#include "GlutTools/GlutDraw.hpp"
 #include "Templates/GridMonos.hpp"
 #include "Templates/RandomMonos.hpp"
 #include "Templates/RingMonos.hpp"
@@ -83,6 +84,11 @@ namespace worldReader
             else if (key == "show-mono-index-label")
             {
                 wr::showMonoIndexLabel = values[0] == "true";
+            }
+            else if (key == "life-cycle")
+            {
+                wr::lifeCycle =
+                    std::stol(values[0]) * (1000 / glutDraw::updateCycle);
             }
             else if (key == "camera-position")
             {

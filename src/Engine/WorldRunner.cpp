@@ -20,8 +20,8 @@ namespace worldRunner
 {
     double monoGraphicScale = 1.0;
     double monoGraphicSize = 0.01;
-    double deltaTimes = 1.0 / 16384; // 2^(-14)
-    double clusterThreshold = 0.3913165154385;
+    double deltaTimes = 1.0 / 16384; // = 2^(-14)
+    double clusterThreshold = 0.3913165133326; // = Singularity Waltz P2
     bool showMonoIndexLabel = false;
     long lifeCycle = 0;
     std::vector<MonoTemplate*> monoTemplates;

@@ -1,4 +1,4 @@
-$camera-arc: 0.0, 0.0, 0.0, 90.0, 0.0, 5.0
+$camera-arc: 0.0, 0.0, 0.0, -90.0, 0.0, 5.0
 $life-cycle: 10
 
 @random

@@ -12,6 +12,6 @@ namespace util
     double sigmoidFunc(double x, double a);
     double normalDistributionFunc(double x);
     double normalDistributionFunc(double x, double s, double m);
-    double untitledFunc(double x);
-    double untitledFunc(double x, double a, double d);
+    double singularityWaltzFunc(double x);
+    double singularityWaltzFunc(double x, double a, double d);
 }

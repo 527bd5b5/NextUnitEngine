@@ -87,7 +87,7 @@ namespace monoEffectManager
 
     double calcEffectPower(double x)
     {
-        return util::untitledFunc(x);
+        return util::singularityWaltzFunc(x);
     }
 
     void calcNextState(

@@ -23,7 +23,7 @@ int main(int argc, const char** argv)
 
     glutEvent::init();
     glutDraw::init();
-    worldRunner::reload();
+    worldRunner::load();
 
     glutMainLoop();
 

@@ -20,7 +20,7 @@ namespace worldRunner
     );
     void deleteMonoTemplates();
     void reset();
-    void reload();
+    void load();
     void update();
     void draw();
 }

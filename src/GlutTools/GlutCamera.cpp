@@ -23,10 +23,10 @@ namespace glutCamera
         util::getSphericalCoordinates(90.0 + THETA, 90.0 - PHI, RADIUS);
     Vector2 defaultCameraRotation(THETA, PHI);
 
-    Vector3 cameraPosition = Vector3(defaultCameraPosition);
-    Vector2 cameraRotation = Vector2(defaultCameraRotation);
-    Vector3 initCameraPosition = Vector3(defaultCameraPosition);
-    Vector2 initCameraRotation = Vector2(defaultCameraRotation);
+    Vector3 initCameraPosition;
+    Vector2 initCameraRotation;
+    Vector3 cameraPosition;
+    Vector2 cameraRotation;
 
     Vector2 prevMousePosition(0.0, 0.0);
     bool isDragMouse = false;
@@ -64,6 +64,12 @@ namespace glutCamera
             keySignal.setState(glutEvent::pressedKeys[keySignal.getKey()]);
             keySignal.updateState();
         }
+    }
+
+    void init()
+    {
+        initCameraPosition = Vector3(defaultCameraPosition);
+        initCameraRotation = Vector2(defaultCameraRotation);
     }
 
     void reset()

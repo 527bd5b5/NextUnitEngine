@@ -18,12 +18,12 @@
 
 namespace worldRunner
 {
-    double monoGraphicScale = 1.0;
-    double monoGraphicSize = 0.01;
-    double deltaTimes = 1.0 / 16384; // = 2^(-14)
-    double clusterThreshold = 0.3913165133326; // = Singularity Waltz P2
-    bool showMonoIndexLabel = false;
-    long lifeCycle = 0;
+    double monoGraphicScale;
+    double monoGraphicSize;
+    double deltaTimes;
+    double clusterThreshold;
+    bool showMonoIndexLabel;
+    long lifeCycle;
     std::vector<MonoTemplate*> monoTemplates;
 
     int orbitRemaining = 10;
@@ -77,8 +77,16 @@ namespace worldRunner
         updateCycleCount = 0;
     }
 
-    void reload()
+    void load()
     {
+        monoGraphicScale = 1.0;
+        monoGraphicSize = 0.01;
+        deltaTimes = 1.0 / 16384; // = 2^(-14)
+        clusterThreshold = 0.3913165133326; // = Singularity Waltz P2
+        showMonoIndexLabel = false;
+        lifeCycle = 0;
+
+        glutCamera::init();
         worldReader::readNueFile();
         glutCamera::reset();
 
@@ -117,7 +125,7 @@ namespace worldRunner
         }
         else if (reloadKeySignal.getIsPressed())
         {
-            reload();
+            load();
         }
         else if (!playWorld && !stepKeySignal.getIsPressed())
         {

@@ -29,7 +29,7 @@ $delta-times: <double = 6.103515625e-5>
 2つ以上のmonoを群として判定する距離の閾値を設定します。
 
 ```plaintext
-$cluster-threshold: <double = 0.3913165154385>
+$cluster-threshold: <double = 0.3913165133326>
 ```
 
 ## Show Mono Index Label

@@ -10,6 +10,7 @@ namespace glutCamera
     extern Vector3 initCameraPosition;
     extern Vector2 initCameraRotation;
 
+    void init();
     void reset();
     void update();
 }
